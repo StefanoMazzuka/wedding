@@ -4,7 +4,7 @@ window.WEDDING = {
   // Medianoche en Madrid. Cuando sepáis la hora, actualizad también countdownNote.
   date: "2027-04-10T00:00:00+02:00",
   countdownNote: "Cuenta atrás hasta el comienzo del 10 de abril, hora de Madrid.",
-  cover: "", // Ejemplo: "assets/images/portada.jpg"
+  cover: "assets/images/us.jpg", // Ejemplo: "assets/images/portada.jpg"
   coverAlt: "Una foto de nosotros",
   ceremony: "",
   ceremonyMap: "", // URL completa de Google Maps u otro mapa
@@ -19,5 +19,7 @@ window.WEDDING = {
     // Sube imágenes a assets/images y añade una entrada por imagen:
     // { src: "assets/images/foto-01.jpg", alt: "Juntos en nuestro primer viaje", caption: "Nuestra primera aventura" },
     // { src: "assets/images/foto-02.jpg", alt: "Paseando junto al mar", caption: "Nuestro lugar favorito" },
+    { src: "assets/images/photo-01.jpg", alt: "Juntos en nuestro primer viaje", caption: "Chikibaby" },
+    { src: "assets/images/photo-02.jpg", alt: "Paseando junto al mar", caption: "Chikistrikis" },
   ],
 };
