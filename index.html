@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mariale y Stefano se casan el 10 de abril de 2027. ¡Y quieren celebrarlo contigo!">
+  <meta name="theme-color" content="#fff9ef">
+  <title>Mariale y Stefano · 10 abril 2027</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="config.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#inicio">Ir al contenido</a>
+  <main id="inicio">
+    <section class="invitation" aria-labelledby="couple">
+      <p class="announcement">¡Que nos casamos!</p>
+      <div class="doodle" aria-hidden="true">♡</div>
+      <h1 id="couple">Mariale y Stefano</h1>
+      <p class="date"><time datetime="2027-04-10">Sábado, 10 de abril de 2027</time></p>
+      <p class="intro">Habrá besos, brindis y algún paso de baile cuestionable.<br>Solo faltas tú.</p>
+      <div id="cover" class="cover" hidden></div>
+      <div class="countdown-block">
+        <h2 id="countdown-title">Para el gran día quedan…</h2>
+        <div class="countdown" role="timer" aria-labelledby="countdown-title">
+          <div><strong id="days">—</strong><span>días</span></div>
+          <div><strong id="hours">—</strong><span>horas</span></div>
+          <div><strong id="minutes">—</strong><span>minutos</span></div>
+          <div><strong id="seconds">—</strong><span>segundos</span></div>
+        </div>
+        <p id="countdown-message" class="note">Cuenta atrás hasta el comienzo del 10 de abril, hora de Madrid.</p>
+        <noscript>¡Reserva el 10 de abril de 2027! Activa JavaScript para ver la cuenta atrás.</noscript>
+      </div>
+      <a class="calendar-link" href="boda.ics" download>Apúntalo, que no se te olvide <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section id="recuerdos" class="memories" aria-labelledby="photos-title">
+      <h2 id="photos-title">Estos somos nosotros</h2>
+      <div class="gallery" id="gallery">
+        <figure><div class="photo-placeholder"><span aria-hidden="true">☺</span><p>Aquí va una foto<br>en la que salimos bien.</p></div><figcaption>O al menos lo intentamos.</figcaption></figure>
+        <figure><div class="photo-placeholder"><span aria-hidden="true">♡</span><p>Y aquí otra.<br>Tenemos que elegirla.</p></div><figcaption>Pronto, nuestras fotos.</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="dia" class="day" aria-labelledby="details-title">
+      <h2 id="details-title">Vale, ¿cuál es el plan?</h2>
+      <div class="plan">
+        <article><h3>El «sí, quiero»</h3><p id="ceremony">La fecha ya la tienes. ¡El lugar y la hora te los contamos pronto!</p><a id="ceremony-map" class="text-link" hidden>Ver ubicación ↗</a></article>
+        <article><h3>Y después… ¡fiesta!</h3><p id="party">Comer, brindar y bailar contigo. Pronto te contamos dónde.</p><a id="party-map" class="text-link" hidden>Ver ubicación ↗</a></article>
+      </div>
+      <div class="extra-info">
+        <p id="location-info" hidden></p>
+        <details><summary>¿Cómo confirmo que voy?</summary><p id="rsvp-info">Pronto pondremos aquí cómo confirmar. De momento, ¡guárdanos el día!</p><a id="rsvp-link" class="text-link" hidden>¡Voy! ↗</a></details>
+        <details><summary>¿Qué me pongo?</summary><p id="dress-code">Todavía estamos decidiendo los detalles. Eso sí: ve practicando tus pasos de baile.</p></details>
+        <details><summary>¿Y para llegar y dormir?</summary><p id="travel-info">Añadiremos aquí la información de transporte y alojamiento en cuanto la tengamos.</p></details>
+      </div>
+    </section>
+    <footer><span aria-hidden="true">♡</span><p>¡Qué ganas de celebrarlo contigo!</p><small>Mariale y Stefano · 10.04.2027</small></footer>
+  </main>
+</body>
+</html>
