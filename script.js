@@ -12,6 +12,15 @@ const safeUrl = (value) => {
     return ["http:", "https:"].includes(url.protocol) ? url.href : null;
   } catch { return null; }
 };
+// Las fotos locales también funcionan al abrir index.html sin servidor.
+const safeImageUrl = (value) => {
+  try {
+    const url = new URL(value, document.baseURI);
+    if (["http:", "https:"].includes(url.protocol)) return url.href;
+    if (url.protocol === "file:" && new URL(document.baseURI).protocol === "file:") return url.href;
+    return null;
+  } catch { return null; }
+};
 const setLink = (id, value) => {
   if (!value) return;
   const url = safeUrl(value);
@@ -35,7 +44,7 @@ setLink("party-map", config.partyMap);
 setLink("rsvp-link", config.rsvpUrl);
 if (config.names) document.querySelector("footer small").textContent = `${config.names} · 10.04.2027`;
 if (config.names) document.title = `${config.names} · Nuestra boda · 10 abril 2027`;
-if (config.cover && safeUrl(config.cover)) {
+if (config.cover && safeImageUrl(config.cover)) {
   const img = new Image();
   img.alt = config.coverAlt || "Nuestra boda";
   img.className = "cover-photo";
@@ -48,9 +57,9 @@ if (config.cover && safeUrl(config.cover)) {
 }
 if (Array.isArray(config.photos) && config.photos.length) {
   const gallery = document.getElementById("gallery");
-  gallery.replaceChildren();
-  config.photos.forEach((photo) => {
-    if (!photo.src || !safeUrl(photo.src)) return;
+  const photos = config.photos.filter((photo) => photo.src && safeImageUrl(photo.src));
+  if (photos.length) gallery.replaceChildren();
+  photos.forEach((photo) => {
     const figure = document.createElement("figure");
     const img = document.createElement("img");
     img.alt = photo.alt || photo.caption || "Un recuerdo juntos";
