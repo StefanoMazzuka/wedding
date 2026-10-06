@@ -21,5 +21,6 @@ window.WEDDING = {
     // { src: "assets/images/foto-02.jpg", alt: "Paseando junto al mar", caption: "Nuestro lugar favorito" },
     { src: "assets/images/photo-01.jpg", alt: "Juntos en nuestro primer viaje", caption: "Chikibaby" },
     { src: "assets/images/photo-02.jpg", alt: "Paseando junto al mar", caption: "Chikistrikis" },
+    { src: "assets/images/photo-03.jpg", alt: "Abrazando un peluche verde en el sofá", caption: "Los pequeños momentos" },
   ],
 };

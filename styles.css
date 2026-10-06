@@ -45,7 +45,7 @@ h1 { max-width: 780px; margin: 0 auto 24px; font: 400 clamp(44px, 7vw, 76px)/1.1
 .calendar-link { display: inline-flex; align-items: center; gap: 28px; border: 1px solid var(--rose); padding: 12px 24px; text-decoration: none; font-size: 11px; transition: background .2s, color .2s; }
 .calendar-link:hover { background: var(--rose); color: var(--paper); }
 .memories { padding: 65px 40px 75px; text-align: center; border-top: 1px solid var(--line); }
-.gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; margin: 36px auto 0; max-width: 760px; }
+.gallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; margin: 36px auto 0; max-width: 760px; }
 figure { min-width: 0; margin: 0; padding: 8px 8px 0; background: #fffcfa; border: 1px solid var(--line); }
 .photo-placeholder { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: #f4e5e9; padding: 20px; }
 .photo-placeholder span { font: 42px var(--serif); color: var(--rose); }
@@ -88,7 +88,7 @@ footer small { font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
   .countdown > div { width: 76px; padding: 0 8px; }
   .countdown strong { font-size: 34px; }
   .memories, .day { padding: 48px 0; }
-  .gallery { gap: 16px; }
+  .gallery { grid-template-columns: 1fr; gap: 24px; max-width: 340px; }
   figcaption { font-size: 15px; padding: 12px 3px; }
   .plan { grid-template-columns: 1fr; gap: 20px; margin-bottom: 30px; }
   .extra-info { margin-top: 30px; }
