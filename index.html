@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Mariale y Stefano se casan el 10 de abril de 2027. ¡Y quieren celebrarlo contigo!">
-  <meta name="theme-color" content="#fff9ef">
+  <meta name="theme-color" content="#fcf8f6">
   <title>Mariale y Stefano · 10 abril 2027</title>
   <link rel="stylesheet" href="styles.css">
   <script src="config.js" defer></script>
@@ -13,12 +13,16 @@
 <body>
   <a class="skip-link" href="#inicio">Ir al contenido</a>
   <main id="inicio">
+    <nav class="site-nav" aria-label="Navegación principal">
+      <a class="monogram" href="#inicio" aria-label="Mariale y Stefano, inicio">M &amp; S</a>
+      <div class="nav-links"><a href="#recuerdos">Nosotros</a><a href="#dia">El gran día</a></div>
+    </nav>
     <section class="invitation" aria-labelledby="couple">
-      <p class="announcement">¡Que nos casamos!</p>
-      <div class="doodle" aria-hidden="true">♡</div>
+      <p class="announcement">Una nueva primavera juntos</p>
+      <div class="doodle" aria-hidden="true">桜</div>
       <h1 id="couple">Mariale y Stefano</h1>
       <p class="date"><time datetime="2027-04-10">Sábado, 10 de abril de 2027</time></p>
-      <p class="intro">Habrá besos, brindis y algún paso de baile cuestionable.<br>Solo faltas tú.</p>
+      <p class="intro">Una vida juntos, un día inolvidable.<br>Nos encantará compartirlo contigo.</p>
       <div id="cover" class="cover" hidden></div>
       <div class="countdown-block">
         <h2 id="countdown-title">Para el gran día quedan…</h2>
@@ -31,11 +35,12 @@
         <p id="countdown-message" class="note">Cuenta atrás hasta el comienzo del 10 de abril, hora de Madrid.</p>
         <noscript>¡Reserva el 10 de abril de 2027! Activa JavaScript para ver la cuenta atrás.</noscript>
       </div>
-      <a class="calendar-link" href="boda.ics" download>Apúntalo, que no se te olvide <span aria-hidden="true">↗</span></a>
+      <a class="calendar-link" href="boda.ics" download>Guardar la fecha <span aria-hidden="true">↗</span></a>
     </section>
 
     <section id="recuerdos" class="memories" aria-labelledby="photos-title">
-      <h2 id="photos-title">Estos somos nosotros</h2>
+      <p class="section-label">Nuestra historia</p>
+      <h2 id="photos-title">Recuerdos que florecen</h2>
       <div class="gallery" id="gallery">
         <figure><div class="photo-placeholder"><span aria-hidden="true">☺</span><p>Aquí va una foto<br>en la que salimos bien.</p></div><figcaption>O al menos lo intentamos.</figcaption></figure>
         <figure><div class="photo-placeholder"><span aria-hidden="true">♡</span><p>Y aquí otra.<br>Tenemos que elegirla.</p></div><figcaption>Pronto, nuestras fotos.</figcaption></figure>
@@ -43,10 +48,11 @@
     </section>
 
     <section id="dia" class="day" aria-labelledby="details-title">
-      <h2 id="details-title">Vale, ¿cuál es el plan?</h2>
+      <p class="section-label">10 · 04 · 2027</p>
+      <h2 id="details-title">El gran día</h2>
       <div class="plan">
         <article><h3>El «sí, quiero»</h3><p id="ceremony">La fecha ya la tienes. ¡El lugar y la hora te los contamos pronto!</p><a id="ceremony-map" class="text-link" hidden>Ver ubicación ↗</a></article>
-        <article><h3>Y después… ¡fiesta!</h3><p id="party">Comer, brindar y bailar contigo. Pronto te contamos dónde.</p><a id="party-map" class="text-link" hidden>Ver ubicación ↗</a></article>
+        <article><h3>El brindis y la celebración</h3><p id="party">Comer, brindar y bailar contigo. Pronto te contamos dónde.</p><a id="party-map" class="text-link" hidden>Ver ubicación ↗</a></article>
       </div>
       <div class="extra-info">
         <p id="location-info" hidden></p>
@@ -55,7 +61,7 @@
         <details><summary>¿Y para llegar y dormir?</summary><p id="travel-info">Añadiremos aquí la información de transporte y alojamiento en cuanto la tengamos.</p></details>
       </div>
     </section>
-    <footer><span aria-hidden="true">♡</span><p>¡Qué ganas de celebrarlo contigo!</p><small>Mariale y Stefano · 10.04.2027</small></footer>
+    <footer><span aria-hidden="true">♡</span><p>Contigo, este día será aún más especial.</p><small>Mariale y Stefano · 10.04.2027</small></footer>
   </main>
 </body>
 </html>
