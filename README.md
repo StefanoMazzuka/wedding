@@ -24,10 +24,12 @@ Abre http://localhost:8000.
 
 Repositorio previsto: `git@github.com:StefanoMazzuka/wedding.git` (sin la barra invertida antes de `@`).
 
-1. Sube estos archivos al repositorio, en la rama `main`, conservando `.github/workflows/pages.yml`.
-2. En GitHub, abre **Settings → Pages → Build and deployment → Source → GitHub Actions**.
-3. En **Actions**, ejecuta «Publicar web de la boda» o sube un cambio a `main`.
-4. Una vez completado el despliegue, la dirección prevista es https://stefanomazzuka.github.io/wedding/.
+1. Sube estos archivos al repositorio, en la rama `main`.
+2. En GitHub, abre **Settings → Pages → Build and deployment → Source → Deploy from a branch**.
+3. Selecciona la rama `main`, la carpeta `/ (root)` y guarda.
+4. Los siguientes cambios que subas a `main` se publicarán automáticamente.
+
+No se necesita un workflow propio ni un paso de compilación. GitHub muestra su proceso automático de publicación en Actions.
 
 Referencia oficial: https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site
 
