@@ -93,3 +93,30 @@ function updateCountdown() {
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
+
+// Cada clic recorre las seis fuentes locales y vuelve al diseño original.
+const fontOptions = [
+  "Predeterminada",
+  "Hammersmith One",
+  "Josefin Sans",
+  "Montserrat",
+  "Pacifico",
+  "Pinyon Script",
+  "Playfair Display",
+];
+let fontIndex = 0;
+const fontToggle = document.getElementById("font-toggle");
+fontToggle.hidden = false;
+fontToggle.addEventListener("click", () => {
+  fontIndex = (fontIndex + 1) % fontOptions.length;
+  const fontName = fontOptions[fontIndex];
+  const style = document.documentElement.style;
+  if (fontIndex === 0) {
+    style.removeProperty("--serif");
+    style.removeProperty("--body-font");
+  } else {
+    style.setProperty("--serif", `"${fontName}", Georgia, serif`);
+    style.setProperty("--body-font", `"${fontName}", system-ui, sans-serif`);
+  }
+  document.getElementById("font-name").textContent = fontName;
+});
