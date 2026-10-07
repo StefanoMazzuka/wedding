@@ -24,3 +24,4 @@ window.WEDDING = {
     { src: "assets/images/photo-03.jpg", alt: "Abrazando un peluche verde en el sofá", caption: "Los pequeños momentos" },
   ],
 };
+
