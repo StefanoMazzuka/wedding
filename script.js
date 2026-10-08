@@ -41,7 +41,7 @@ setText("travel-info", config.travelInfo);
 setText("countdown-message", config.countdownNote);
 setLink("ceremony-map", config.ceremonyMap);
 setLink("party-map", config.partyMap);
-setLink("rsvp-link", config.rsvpUrl);
+
 if (config.names) document.querySelector("footer small").textContent = `${config.names} · 10.04.2027`;
 if (config.names) document.title = `${config.names} · Nuestra boda · 10 abril 2027`;
 if (config.cover && safeImageUrl(config.cover)) {

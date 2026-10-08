@@ -1,0 +1,22 @@
+<!doctype html>
+<html><head><meta charset="utf-8"></head><body>
+<script>
+  // Valores validados en doGet y escapados por la plantilla de Apps Script.
+  const origin = '<?= origin ?>';
+  const channel = '<?= channel ?>';
+  const send = data => window.top.postMessage({ ...data, channel, app: 'wedding-guests' }, origin);
+  window.addEventListener('message', event => {
+    if (event.source !== window.top || event.origin !== origin) return;
+    const data = event.data;
+    if (!data || data.app !== 'wedding-guests' || data.channel !== channel ||
+        typeof data.id !== 'string') return;
+    const runner = google.script.run
+      .withSuccessHandler(guests => send({ id: data.id, guests }))
+      .withFailureHandler(error => send({ id: data.id, error: error.message || 'No se pudo completar la solicitud.' }));
+    if (data.action === 'read') runner.getGuests(data.code);
+    if (data.action === 'save') runner.saveGuests(data.code, data.guests);
+    if (data.action === 'petals') runner.getPetals();
+  });
+  send({ ready: true });
+</script>
+</body></html>

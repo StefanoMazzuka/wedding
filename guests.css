@@ -1,0 +1,62 @@
+.guest-intro { padding: 65px 0 28px; }
+.guest-intro h1 { max-width: 680px; font-size: clamp(38px, 6vw, 60px); }
+.guest-intro::after { top: 100px; }
+.lotus { width: 90px; height: 68px; margin-bottom: 24px; }
+.guest-panel { position: relative; max-width: 660px; margin: 0 auto 36px; padding: 32px; background: #fffcfa; border: 1px solid var(--line); }
+.guest-panel label { display: block; font-size: 13px; color: var(--muted); }
+.guest-panel input, .guest-panel select { width: 100%; min-width: 0; min-height: 48px; padding: 11px 12px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); color: var(--ink); font: 16px/1.5 var(--body-font); }
+.guest-panel input:focus-visible, .guest-panel select:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
+.code-entry { display: flex; gap: 12px; margin-top: 10px; }
+#invitation-code { text-transform: uppercase; letter-spacing: .1em; flex: 1; }
+.guest-panel button { min-height: 48px; padding: 12px 20px; border: 1px solid var(--rose); background: var(--rose); color: var(--paper); font: 13px/1.5 var(--body-font); cursor: pointer; }
+.guest-panel button:hover { background: var(--ink); }
+.guest-panel button:disabled { opacity: .55; cursor: wait; }
+.guest-hint { font-size: 12px; color: var(--muted); margin: 12px 0 0; }
+#guest-status { margin: 16px 0 0; font-size: 14px; color: var(--rose); overflow-wrap: anywhere; }
+#guest-status:empty { margin: 0; }
+#guest-status[data-state="error"] { color: #922d3a; }
+.guest-editor-heading { margin-top: 24px; }
+.guest-editor-heading .section-label { margin-bottom: 12px; }
+.guest-editor-heading h2 { margin-bottom: 12px; }
+.guest-editor-heading > p:last-child { color: var(--muted); font-size: 14px; }
+.guest-person { min-width: 0; margin: 24px 0; padding: 20px; border: 1px solid var(--line); }
+.guest-person legend { max-width: 100%; padding: 0 8px; color: var(--rose); font: 22px/1.4 var(--serif); overflow-wrap: anywhere; }
+.guest-person label { margin-bottom: 14px; }
+.guest-person label:last-child { margin-bottom: 0; }
+.guest-person input, .guest-person select { display: block; margin-top: 6px; }
+.guest-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.guest-panel .secondary-button { background: transparent; color: var(--rose); border-color: var(--line); }
+.guest-panel .secondary-button:hover { background: var(--paper); }
+@media (max-width: 600px) {
+  .guest-intro { padding-top: 48px; }
+  .guest-panel { padding: 22px 18px; }
+  .code-entry { flex-direction: column; }
+  .guest-person { padding: 14px; }
+  .guest-actions > button { width: 100%; }
+}
+
+.wedding-branch { margin: 0 auto 42px; padding: 12px 0 30px; text-align: center; border-bottom: 1px solid var(--line); }
+.wedding-branch .section-label { margin-bottom: 12px; }
+.wedding-branch h2 { margin-bottom: 12px; font-size: clamp(28px, 4vw, 36px); }
+.branch-intro { color: var(--muted); font: italic 17px/1.6 var(--serif); margin-bottom: 0; }
+.branch-scroll { overflow-x: auto; scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+.branch-scroll:focus-visible { outline: 2px solid var(--rose); outline-offset: 2px; }
+#guest-branch { display: block; width: 100%; height: auto; max-height: 380px; }
+.branch-wood { stroke: #9d7a70; }
+.branch-petal { fill: #e8b3c1; stroke: #b56d86; stroke-width: .85; }
+.branch-petals > g:nth-child(3n) .branch-petal { fill: #f1cbd5; }
+.branch-petals > g:nth-child(3n + 1) .branch-petal { fill: #dba0b3; }
+.petal-vein { stroke: #b56d86; stroke-width: .6; opacity: .65; }
+.blooming { animation: petal-bloom .65s ease-out both; transform-box: fill-box; transform-origin: bottom center; }
+#branch-retry { margin-top: 12px; padding: 8px 12px; background: transparent; border: 1px solid var(--line); color: var(--rose); font: inherit; cursor: pointer; }
+@keyframes petal-bloom { from { opacity: 0; transform: scale(.25); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .blooming { animation: none; } }
+
+.petal-name { min-height: 1.8em; margin: 0; color: var(--rose); font: italic 20px/1.8 var(--serif); }
+.branch-petals > g { cursor: pointer; }
+.branch-petals > g:hover .branch-petal, .branch-petals > g:focus .branch-petal { fill: #c77e97; stroke: var(--rose); stroke-width: 1.5; }
+@media (max-width: 600px) {
+  #guest-branch { max-height: none; }
+  .branch-scroll { overflow: visible; }
+  .petal-name { position: sticky; bottom: 12px; z-index: 1; background: var(--paper); border-radius: 4px; overflow-wrap: anywhere; }
+}

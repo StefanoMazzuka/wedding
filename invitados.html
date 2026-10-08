@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fcf8f6">
+  <meta name="robots" content="noindex">
+  <title>Tu invitación · Mariale y Stefano</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="guests.css">
+  <script src="config.js" defer></script>
+  <script src="branch.js" defer></script>
+  <script src="guests.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#invitation-title">Ir al contenido</a>
+  <main>
+    <nav class="site-nav" aria-label="Navegación principal">
+      <a class="monogram" href="index.html" aria-label="Mariale y Stefano, inicio">M &amp; S</a>
+      <div class="nav-links"><a href="index.html">La boda</a><a href="invitados.html" aria-current="page">Tu invitación</a></div>
+    </nav>
+    <section class="guest-intro invitation" aria-labelledby="invitation-title">
+      <p class="announcement">Un lugar para ti · 10.04.2027</p>
+      <svg class="lotus" viewBox="0 0 120 90" aria-hidden="true"><g fill="#f6e9ec" stroke="#934e65" stroke-width="1.3"><path d="M60 76C27 72 15 48 17 25c24 4 40 20 43 51Z"/><path d="M60 76c33-4 45-28 43-51-24 4-40 20-43 51Z"/><path d="M60 76C36 57 37 32 60 8c23 24 24 49 0 68Z"/><path d="M60 76C35 84 14 71 7 51c24-2 42 7 53 25Z"/><path d="M60 76c25 8 46-5 53-25-24-2-42 7-53 25Z"/></g></svg>
+      <h1 id="invitation-title">Nuestra historia florece contigo</h1>
+      <p class="intro">Tu invitación guarda un pequeño código.<br> Escríbelo aquí y cuéntanos si nos acompañas.</p>
+    </section>
+    <section class="wedding-branch" aria-labelledby="branch-title">
+      <p class="section-label">Pétalo a pétalo</p>
+      <h2 id="branch-title">Así florece nuestro día</h2>
+      <p class="branch-intro">Cada pétalo es alguien que nos acompañará.</p>
+      <div class="branch-scroll" role="region" aria-label="Rama de los invitados" tabindex="0">
+        <svg id="guest-branch" viewBox="0 0 1000 380" role="img" aria-labelledby="branch-description"><title id="branch-description">Consultando los pétalos de nuestra rama</title></svg>
+      </div>
+      <p id="petal-name" class="petal-name" aria-live="polite"></p>
+      <p id="branch-status" class="guest-hint" role="status" aria-live="polite">Nuestra rama está despertando…</p>
+      <button id="branch-retry" type="button" hidden>Volver a cargar la rama</button>
+    </section>
+    <section class="guest-panel" aria-label="Tu respuesta">
+      <form id="guest-lookup">
+        <label for="invitation-code">El código de tu invitación</label>
+        <div class="code-entry">
+          <input id="invitation-code" name="code" required pattern="[Ll][Oo][Tt][Oo]-[A-Za-z0-9]{3,32}" maxlength="37" placeholder="LOTO-XXX" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="code-help">
+          <button type="submit">Abrir mi invitación <span aria-hidden="true">→</span></button>
+        </div>
+        <p id="code-help" class="guest-hint">Encontrarás el código en el pétalo de tu invitación.</p>
+      </form>
+      <p id="guest-status" role="status" aria-live="polite"></p>
+      <form id="guest-editor" hidden>
+        <div class="guest-editor-heading"><p class="section-label">Tu invitación</p><h2 id="guest-heading" tabindex="-1">Os esperamos</h2><p>Confirma la respuesta de cada persona. Puedes volver con el mismo código si cambian vuestros planes.</p></div>
+        <div id="guest-people"></div>
+        <div class="guest-actions"><button type="submit">Guardar respuesta <span aria-hidden="true">♡</span></button><button id="guest-exit" class="secondary-button" type="button">Usar otro código</button></div>
+        <p class="guest-hint">Si viene tu acompañante, recuerda completar su nombre.</p>
+      </form>
+      <noscript>Activa JavaScript para consultar tu invitación y guardar la respuesta.</noscript>
+    </section>
+    <footer><span aria-hidden="true">♡</span><p>Contigo, este día será aún más especial.</p><small>Mariale y Stefano · 10.04.2027</small></footer>
+  </main>
+</body>
+</html>

@@ -11,8 +11,8 @@ window.WEDDING = {
   party: "",
   partyMap: "",
   locationInfo: "",
-  rsvpInfo: "",
-  rsvpUrl: "", // Enlace a vuestro formulario de confirmación
+  rsvpInfo: "Introduce el código de tu invitación para confirmar tu asistencia y la de quienes te acompañan.",
+  guestsApiUrl: "https://script.google.com/macros/s/AKfycbzGIFd7WNlr9sywz9-giYthCACoKcCVsYBn-9558qWWl6NxOrjJuwzauxuVlUgjKkOTcA/exec", // Formulario conectado a Google Sheets
   dressCode: "",
   travelInfo: "",
   photos: [
@@ -24,4 +24,3 @@ window.WEDDING = {
     { src: "assets/images/photo-03.jpg", alt: "Abrazando un peluche verde en el sofá", caption: "Los pequeños momentos" },
   ],
 };
-
