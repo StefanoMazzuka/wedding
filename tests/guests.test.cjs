@@ -37,7 +37,7 @@ test('Sheet updates stay within the invitation and validate before writing', () 
 test('transport validates origin/channel/source and waits for server acknowledgement', async () => {
   let receive, frame, sent;
   const peer = { postMessage: (data, origin) => { sent = { data, origin }; } };
-  const ctx = vm.createContext({ URL, crypto: webcrypto, Uint8Array, setTimeout, clearTimeout,
+  const ctx = vm.createContext({ URL, crypto: { getRandomValues: values => webcrypto.getRandomValues(values) }, Uint8Array, setTimeout, clearTimeout,
     location: { origin:'https://marialeystefano.com' },
     window: { addEventListener: (_, fn) => { receive = fn; }, removeEventListener() {} },
     document: { createElement: () => ({ remove() {} }), body: { append: el => { frame = el; } } } });
@@ -141,6 +141,11 @@ test('branch adds and removes petals without moving existing positions', () => {
   media.matches=false;
   change();
   assert.equal(svg.attrs.viewBox, '0 0 774 380');
+  const legacyMedia = { matches: true, addListener(fn) { change = fn; } };
+  const legacy = vm.createContext({window:{matchMedia:()=>legacyMedia}, document:{getElementById:()=>svg,createElementNS:()=>new Element()}});
+  vm.runInContext(fs.readFileSync('branch.js','utf8'), legacy);
+  legacy.window.renderWeddingBranch([],77);
+  assert.equal(svg.attrs.viewBox, '0 0 380 774');
   draw([77,120],120);
   assert.equal(svg.querySelectorAll().find(el=>el.dataset.position===77).attrs.transform,original);
 });

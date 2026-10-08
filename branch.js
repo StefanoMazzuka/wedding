@@ -19,9 +19,11 @@ function petalPlacement(position) {
 
 const branchMobile = window.matchMedia('(max-width: 600px)');
 let lastBranch;
-branchMobile.addEventListener('change', () => {
+const updateBranchLayout = () => {
   if (lastBranch) window.renderWeddingBranch(lastBranch.entries, lastBranch.total);
-});
+};
+if (branchMobile.addEventListener) branchMobile.addEventListener('change', updateBranchLayout);
+else branchMobile.addListener(updateBranchLayout);
 
 window.renderWeddingBranch = function (entries, total) {
   lastBranch = { entries, total };

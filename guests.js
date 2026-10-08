@@ -58,7 +58,8 @@ function createGuestsConnection(endpoint) {
   return async (action, code, guests) => {
     await connect();
     return new Promise((resolve, reject) => {
-      const id = crypto.randomUUID();
+      // getRandomValues also works in browsers/local previews without randomUUID.
+      const id = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
       const timer = setTimeout(() => {
         pending.delete(id);
         reject(new Error(action === 'save'
@@ -175,17 +176,22 @@ async function refreshBranch() {
   const message = document.getElementById('branch-status');
   const retry = document.getElementById('branch-retry');
   retry.hidden = true;
+  message.textContent = 'Actualizando los pétalos…';
+  let stage = 'read';
   try {
     const branch = await requestGuests('petals');
     const petals = branch.petals;
     if (version !== branchRequest) return;
+    stage = 'draw';
     window.renderWeddingBranch(petals, branch.total);
     message.textContent = petals.length === 0 ? 'El primer pétalo está por llegar.'
       : petals.length === 1 ? 'Un pétalo, una persona. Nuestra rama empieza a florecer.'
       : `${petals.length} pétalos, ${petals.length} personas para compartir este día.`;
-  } catch {
+  } catch (error) {
     if (version !== branchRequest) return;
-    message.textContent = 'No hemos podido actualizar los pétalos. Puedes seguir confirmando tu asistencia.';
+    message.textContent = stage === 'draw'
+      ? 'No se ha podido dibujar la rama. Recarga la página para obtener la última versión.'
+      : `No hemos podido actualizar los pétalos: ${error.message || 'no se recibió respuesta'}. Puedes seguir confirmando tu asistencia.`;
     retry.hidden = false;
   }
 }
