@@ -149,3 +149,41 @@ test('branch adds and removes petals without moving existing positions', () => {
   draw([77,120],120);
   assert.equal(svg.querySelectorAll().find(el=>el.dataset.position===77).attrs.transform,original);
 });
+
+test('connection diagnostics distinguish bridge and query timeouts without logging guest data', async () => {
+  let receive, frame, sent;
+  const timers = new Map();
+  const logs = [];
+  let nextTimer = 0;
+  const peer = { postMessage(data) { sent = data; } };
+  const ctx = vm.createContext({ URL, crypto: webcrypto, Uint8Array,
+    setTimeout(fn, delay) { const id = ++nextTimer; timers.set(id, { fn, delay }); return id; },
+    clearTimeout(id) { timers.delete(id); },
+    console: { warn(...args) { logs.push(args); } },
+    navigator: { onLine: false, userAgent: 'test-browser' },
+    location: { origin: 'https://marialeystefano.com' },
+    window: { addEventListener(_, fn) { receive = fn; }, removeEventListener() {} },
+    document: { createElement: () => ({ remove() {} }), body: { append(el) { frame = el; } } }
+  });
+  vm.runInContext(fs.readFileSync('guests.js', 'utf8').split('const requestGuests =')[0], ctx);
+  const request = ctx.createGuestsConnection('https://script.google.com/macros/s/test/exec');
+  const first = request('petals');
+  frame.onload();
+  const firstCheck = assert.rejects(first, /BRIDGE_TIMEOUT.*red: sin conexión; marco: 1 cargas/);
+  const timeout = [...timers.values()].find(t => t.delay === 25000);
+  timers.clear();
+  timeout.fn();
+  await firstCheck;
+  const retry = request('save', 'LOTO-SECRET', [{ name: 'Private Name' }]);
+  const origin = 'https://test-script.googleusercontent.com';
+  receive({ origin, source: peer, data: { app: 'wedding-guests',
+    channel: new URL(frame.src).searchParams.get('channel'), ready: true } });
+  await Promise.resolve();
+  assert.equal(sent.action, 'save');
+  const retryCheck = assert.rejects(retry, /No pudimos confirmar el guardado.*REQUEST_TIMEOUT.*fase: save/);
+  [...timers.values()].find(t => t.delay === 30000).fn();
+  await retryCheck;
+  assert.equal(logs.length, 2);
+  assert.ok(!JSON.stringify(logs).includes('LOTO-SECRET'));
+  assert.ok(!JSON.stringify(logs).includes('Private Name'));
+});

@@ -74,3 +74,11 @@ Referencia oficial: https://docs.github.com/en/pages/getting-started-with-github
 - Incluye transporte, aparcamiento, hoteles cercanos y un contacto para dudas.
 - Elige entre 3 y 6 fotos y comprímelas para que la web cargue rápido en móvil.
 - El contenido publicado en Pages será accesible por enlace: mantén las respuestas de invitados fuera del repositorio.
+
+La web fuerza HTTPS en el dominio público; Apps Script solo autoriza sus orígenes HTTPS.
+Los accesos locales por HTTP siguen funcionando. Si el dominio usa Cloudflare, también
+puedes activar «Always Use HTTPS» para que la redirección ocurra antes de cargar la página.
+
+Los recursos de `invitados.html` llevan una versión en la URL (`?v=...`) para evitar
+mezclar scripts antiguos del navegador con cambios recientes de la rama. Al cambiar
+su protocolo o varios archivos relacionados, actualiza esa versión en todos ellos.

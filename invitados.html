@@ -2,15 +2,22 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <script>
+    if (location.protocol === 'http:' && ['marialeystefano.com', 'www.marialeystefano.com'].includes(location.hostname)) {
+      const secureUrl = new URL(location.href);
+      secureUrl.protocol = 'https:';
+      location.replace(secureUrl.href);
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#fcf8f6">
   <meta name="robots" content="noindex">
   <title>Tu invitación · Mariale y Stefano</title>
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="guests.css">
-  <script src="config.js" defer></script>
-  <script src="branch.js" defer></script>
-  <script src="guests.js" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261008-branch-4">
+  <link rel="stylesheet" href="guests.css?v=20261008-branch-4">
+  <script src="config.js?v=20261008-branch-4" defer></script>
+  <script src="branch.js?v=20261008-branch-4" defer></script>
+  <script src="guests.js?v=20261009-diagnostics-1" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#invitation-title">Ir al contenido</a>

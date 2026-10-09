@@ -10,12 +10,34 @@ function createGuestsConnection(endpoint) {
   let peerOrigin;
   let channel;
   let receive;
+  let frameLoads = 0;
+  let started;
+  function failure(code, message, phase) {
+    const online = typeof navigator === 'undefined' ? 'desconocida'
+      : navigator.onLine === false ? 'sin conexión' : 'aparentemente disponible';
+    const details = `${code}; fase: ${phase}; red: ${online}; marco: ${frameLoads} cargas; espera: ${Math.round((Date.now() - started) / 1000)} s; origen: ${location.origin}`;
+    // Only transport metadata: never log invitation codes, names or responses.
+    console.warn('[Invitaciones]', {
+      code, phase, online, frameLoads, elapsedMs: Date.now() - started,
+      origin: location.origin,
+      browser: typeof navigator === 'undefined' ? 'desconocido' : navigator.userAgent
+    });
+    return new Error(`${message} [${details}]`);
+  }
   function connect() {
     if (connection) return connection;
     connection = new Promise((resolve, reject) => {
-      const url = new URL(endpoint);
+      started = Date.now();
+      frameLoads = 0;
+      let url;
+      try { url = new URL(endpoint); } catch (_) {
+        throw failure('CONFIG_URL', 'La URL de Apps Script no es válida.', 'configuración');
+      }
       if (url.origin !== 'https://script.google.com' || !url.pathname.endsWith('/exec')) {
-        throw new Error('La conexión con las invitaciones no está configurada.');
+        throw failure('CONFIG_URL', 'La conexión necesita una URL de Apps Script terminada en /exec.', 'configuración');
+      }
+      if (location.origin === 'null') {
+        throw failure('PAGE_ORIGIN', 'Abre la web por HTTP o HTTPS, no como archivo local.', 'configuración');
       }
       channel = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
       url.searchParams.set('origin', location.origin);
@@ -24,7 +46,9 @@ function createGuestsConnection(endpoint) {
         window.removeEventListener('message', receive);
         frame.remove();
         connection = null;
-        reject(new Error('No se pudo conectar. Inténtalo de nuevo en unos momentos.'));
+        reject(failure('BRIDGE_TIMEOUT',
+          'Google no confirmó la conexión en 25 segundos. No se llegó a consultar la hoja. Prueba a abrir la web en otro navegador o cambiar de red. Si persiste, revisa el acceso público de Apps Script y los orígenes permitidos. El navegador no permite conocer desde aquí el motivo exacto.',
+          'conexión con Apps Script'));
       }, 25000);
       receive = event => {
         const data = event.data;
@@ -42,12 +66,13 @@ function createGuestsConnection(endpoint) {
         if (!request) return;
         pending.delete(data.id);
         clearTimeout(request.timer);
-        if (data.error) request.reject(new Error(data.error));
-        else if (request.action === 'petals' ? (!data.guests || !Number.isSafeInteger(data.guests.total) || data.guests.total < 0 || !Array.isArray(data.guests.petals)) : !Array.isArray(data.guests)) request.reject(new Error('Respuesta no válida. Vuelve a intentarlo.'));
+        if (data.error) request.reject(failure('SHEETS_ERROR', String(data.error), request.action));
+        else if (request.action === 'petals' ? (!data.guests || !Number.isSafeInteger(data.guests.total) || data.guests.total < 0 || !Array.isArray(data.guests.petals)) : !Array.isArray(data.guests)) request.reject(failure('INVALID_RESPONSE', 'Google devolvió una respuesta con un formato no válido. Revisa la versión publicada de Apps Script.', request.action));
         else request.resolve(data.guests);
       };
       window.addEventListener('message', receive);
       frame = document.createElement('iframe');
+      frame.onload = () => { frameLoads++; };
       frame.hidden = true;
       frame.title = 'Conexión de invitaciones';
       frame.src = url.href;
@@ -62,9 +87,9 @@ function createGuestsConnection(endpoint) {
       const id = Array.from(crypto.getRandomValues(new Uint8Array(16)), n => n.toString(16).padStart(2, '0')).join('');
       const timer = setTimeout(() => {
         pending.delete(id);
-        reject(new Error(action === 'save'
+        reject(failure('REQUEST_TIMEOUT', action === 'save'
           ? 'No pudimos confirmar el guardado. Vuelve a abrir tu invitación para comprobar la respuesta.'
-          : 'La consulta está tardando demasiado. Vuelve a intentarlo.'));
+          : 'La conexión con Google se abrió, pero la consulta no respondió en 30 segundos. Vuelve a intentarlo.', action));
       }, 30000);
       pending.set(id, { resolve, reject, timer, action });
       peer.postMessage({ app: 'wedding-guests', channel, id, action, code, guests }, peerOrigin);

@@ -2,6 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
+  <script>
+    if (location.protocol === 'http:' && ['marialeystefano.com', 'www.marialeystefano.com'].includes(location.hostname)) {
+      const secureUrl = new URL(location.href);
+      secureUrl.protocol = 'https:';
+      location.replace(secureUrl.href);
+    }
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Mariale y Stefano se casan el 10 de abril de 2027. ¡Y quieren celebrarlo contigo!">
   <meta name="theme-color" content="#fcf8f6">
