@@ -5,7 +5,7 @@ const vm = require('node:vm');
 const { webcrypto } = require('node:crypto');
 
 test('Sheet updates stay within the invitation and validate before writing', () => {
-  const rows = [['code','id','name','type','attendance','position'],
+  const rows = [['code','id','name','type','attendance','position','allergens'],
     ['LOTO-ABC','1','Ana','adulto','pendiente','1'],
     ['LOTO-ABC','2','','adulto','pendiente','2'],
     ['LOTO-XYZ','3','Luis','adulto','pendiente','3']];
@@ -28,9 +28,14 @@ test('Sheet updates stay within the invitation and validate before writing', () 
   assert.throws(() => ctx.saveGuests('LOTO-ABC', updates));
   assert.equal(writes, 0);
   updates[1].name = 'Eva';
+  updates[1].allergens = '=1+1';
+  assert.throws(() => ctx.saveGuests('LOTO-ABC', updates));
+  assert.equal(writes, 0);
+  updates[1].allergens = 'Frutos secos, lactosa';
   ctx.saveGuests('LOTO-ABC', updates);
-  assert.equal(writes, 2);
-  assert.deepEqual(rows[2], ['LOTO-ABC','2','Eva','niño','sí','2']);
+  assert.equal(writes, 4);
+  assert.deepEqual(rows[2], ['LOTO-ABC','2','Eva','niño','sí','2','Frutos secos, lactosa']);
+  assert.equal(ctx.getGuests('LOTO-ABC')[1].allergens, 'Frutos secos, lactosa');
   assert.equal(rows[3][4], 'pendiente');
 });
 
@@ -92,7 +97,7 @@ test('bridge only calls read/write for the configured parent and channel', () =>
 });
 
 test('public petals expose confirmed names and sheet-sized capacity, never codes', () => {
-  const rows = [['code','id','name','type','attendance','position'],
+  const rows = [['code','id','name','type','attendance','position','allergens'],
     ['LOTO-ABC','1','Ana','adulto','sí','1'],
     ['LOTO-ABC','2','Eva','niño','pendiente','2'],
     ['LOTO-XYZ','3','Luis','adulto','no','3']];
@@ -112,7 +117,7 @@ test('public petals expose confirmed names and sheet-sized capacity, never codes
   assert.throws(result, /posición única/);
 });
 
-test('branch adds and removes petals without moving existing positions', () => {
+test('branch keeps positions stable for attendance changes with the couple at the tip', () => {
   class Element {
     constructor() { this.children=[]; this.dataset={}; this.style={}; this.attrs={}; }
     setAttribute(key,value) { this.attrs[key]=value; if(key==='data-position')this.dataset.position=value; }
@@ -135,19 +140,26 @@ test('branch adds and removes petals without moving existing positions', () => {
   assert.equal(svg.querySelectorAll().find(el=>el.dataset.position===77).attrs.transform,original);
   media.matches=true;
   change();
-  assert.equal(svg.attrs.viewBox, '0 0 380 774');
+  assert.equal(svg.attrs.viewBox, '0 0 380 632');
   assert.equal(svg.style.minWidth, '0');
   assert.equal(svg.querySelectorAll().find(el=>el.dataset.position===77).attrs.transform,original);
   media.matches=false;
   change();
-  assert.equal(svg.attrs.viewBox, '0 0 774 380');
+  assert.equal(svg.attrs.viewBox, '0 0 632 380');
   const legacyMedia = { matches: true, addListener(fn) { change = fn; } };
   const legacy = vm.createContext({window:{matchMedia:()=>legacyMedia}, document:{getElementById:()=>svg,createElementNS:()=>new Element()}});
   vm.runInContext(fs.readFileSync('branch.js','utf8'), legacy);
   legacy.window.renderWeddingBranch([],77);
-  assert.equal(svg.attrs.viewBox, '0 0 380 774');
-  draw([77,120],120);
-  assert.equal(svg.querySelectorAll().find(el=>el.dataset.position===77).attrs.transform,original);
+  assert.equal(svg.attrs.viewBox, '0 0 380 632');
+  draw([1,2,3,4,77]);
+  assert.equal(ctx.shootCounts(77).length, 6);
+  assert.deepEqual(Array.from(ctx.shootCounts(77)), [16,14,14,12,12,7]);
+  const placement = position => ctx.petalPlacement(position, 6, 77);
+  assert.equal(placement(1).x, placement(2).x);
+  assert.ok(placement(1).x > placement(3).x);
+  assert.ok(placement(3).x < placement(77).x);
+  assert.ok(placement(3).y > placement(5).y);
+  assert.ok(placement(1).scale > placement(3).scale);
 });
 
 test('connection diagnostics distinguish bridge and query timeouts without logging guest data', async () => {

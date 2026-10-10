@@ -53,7 +53,7 @@
 @media (prefers-reduced-motion: reduce) { .blooming { animation: none; } }
 
 .petal-name { min-height: 1.8em; margin: 0; color: var(--rose); font: italic 20px/1.8 var(--serif); }
-.branch-petals > g { cursor: pointer; }
+.branch-petals > g { cursor: pointer; outline: none; }
 .branch-petals > g:hover .branch-petal, .branch-petals > g:focus .branch-petal { fill: #c77e97; stroke: var(--rose); stroke-width: 1.5; }
 @media (max-width: 600px) {
   #guest-branch { max-height: none; }

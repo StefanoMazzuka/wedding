@@ -16,11 +16,13 @@ Solo se muestra éxito cuando Apps Script confirma el guardado. No se usa `fetch
    Conserva **Ejecutar como: Yo** y acceso **Cualquier persona**. No borres la implementación:
    se conserva la URL `/exec`, ya configurada como `guestsApiUrl` en `config.js`.
 5. Publica los archivos de la web en GitHub Pages.
-6. Desde `invitados.html`, prueba un código de prueba, guarda, comprueba las columnas C–E
+6. Desde `invitados.html`, prueba un código de prueba, guarda, comprueba las columnas C–E y G
    en Sheets y vuelve a abrir la invitación. Prueba también un código inexistente.
 
 La URL de Apps Script por sí sola ahora muestra un mensaje para abrir la web de la boda.
-La pestaña se llama `guests`. Columnas A–F: `code`, `id`, `name`, `type`, `attendance`, `position`.
+La pestaña se llama `guests`. Columnas A–G: `code`, `id`, `name`, `type`, `attendance`, `position`, `allergens`.
+`allergens` guarda las alergias e intolerancias alimentarias de cada persona (opcional, máximo 500 caracteres).
+Este dato solo se devuelve al abrir la invitación con su código; no se incluye en la rama pública.
 Valores: `adulto` / `niño` y `pendiente` / `sí` / `no`.
 
 Para probar en local: `python3 -m http.server 8000` y abre

@@ -24,9 +24,9 @@ function invitation_(code) {
   const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
   if (!sheet) throw new Error('No se encuentra la pestaña guests.');
   const data = sheet.getDataRange().getDisplayValues();
-  const headers = ['code', 'id', 'name', 'type', 'attendance', 'position'];
+  const headers = ['code', 'id', 'name', 'type', 'attendance', 'position', 'allergens'];
   if (!headers.every((key, i) => data[0][i] === key)) {
-    throw new Error('Revisa los encabezados de las columnas A–F.');
+    throw new Error('Revisa los encabezados de las columnas A–G.');
   }
   const rows = data.slice(1).map((values, i) => ({ values, row: i + 2 }))
     .filter(entry => entry.values[0].trim().toUpperCase() === code);
@@ -40,7 +40,7 @@ function invitation_(code) {
 
 function guests_(rows) {
   return rows.map(({ values: v }) => ({
-    id: v[1], name: v[2], type: v[3], attendance: v[4], position: v[5]
+    id: v[1], name: v[2], type: v[3], attendance: v[4], position: v[5], allergens: v[6] || ''
   }));
 }
 
@@ -96,11 +96,17 @@ function saveGuests(code, guests) {
       if (!name && guest.attendance === 'sí') {
         throw new Error('Completa el nombre de quienes asistirán.');
       }
-      return { entry, values: [name, guest.type, guest.attendance] };
+      const allergens = typeof guest.allergens === 'string' ? guest.allergens.trim() : '';
+      if (allergens.length > 500 || /^[=+@-]/.test(allergens) || /[\r\n\t]/.test(allergens)) {
+        throw new Error('Revisa las alergias e intolerancias (máximo 500 caracteres).');
+      }
+      return { entry, values: [name, guest.type, guest.attendance], allergens };
     });
-    changes.forEach(({ entry, values }) => {
+    changes.forEach(({ entry, values, allergens }) => {
       sheet.getRange(entry.row, 3, 1, 3).setValues([values]);
+      sheet.getRange(entry.row, 7, 1, 1).setValues([[allergens]]);
       entry.values.splice(2, 3, ...values);
+      entry.values[6] = allergens;
     });
     SpreadsheetApp.flush();
     return guests_(rows);

@@ -145,6 +145,9 @@ function renderGuests(guests) {
     addField(group, 'Adulto o niño', 'type', guest.type, [['adulto', 'Adulto'], ['niño', 'Niño']]);
     const attendance = addField(group, '¿Nos acompañas?', 'attendance', guest.attendance,
       [['pendiente', 'Aún por confirmar'], ['sí', 'Sí, ¡allí estaré!'], ['no', 'No podré asistir']]);
+    const allergens = addField(group, 'Alergias e intolerancias alimentarias (opcional)', 'allergens', guest.allergens || '');
+    allergens.maxLength = 500;
+    allergens.placeholder = 'Ej.: frutos secos, gluten, lactosa…';
     const requireName = () => { name.required = attendance.value === 'sí'; };
     attendance.addEventListener('change', requireName);
     requireName();
@@ -177,7 +180,15 @@ editor.addEventListener('submit', async event => {
   busy(true);
   status('Guardando vuestra respuesta…');
   try {
-    renderGuests(await requestGuests('save', activeCode, updates));
+    const saved = await requestGuests('save', activeCode, updates);
+    const allergensConfirmed = updates.every(guest => {
+      const response = saved.find(person => person.id === guest.id);
+      return response && typeof response.allergens === 'string' && response.allergens === guest.allergens;
+    });
+    if (!allergensConfirmed) {
+      throw new Error('Google no confirmó el guardado de las alergias. Actualiza Code.gs en Apps Script y publica una nueva versión en Gestionar implementaciones → Editar → Nueva versión → Implementar. Comprueba que la columna G se llama allergens.');
+    }
+    renderGuests(saved);
     status('Vuestra respuesta está guardada. ¡Gracias por contárnoslo!', 'success');
     refreshBranch();
   } catch (error) {
